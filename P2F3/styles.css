@@ -1,0 +1,657 @@
+/* ===============================================
+   SIMULACIÓN CRT - ESTILOS CSS
+   Universidad del Valle de Guatemala
+   Laboratorio de Física 3
+   =============================================== */
+
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ===============================================
+   HEADER - Encabezado de la aplicación
+   =============================================== */
+.header {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.header h1 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header p {
+    color: #7f8c8d;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+/* ===============================================
+   LAYOUT PRINCIPAL - Grid Container
+   =============================================== */
+.container {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+}
+
+/* ===============================================
+   ÁREA DE SIMULACIÓN - Visualizaciones
+   =============================================== */
+.simulation-area {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+}
+
+.view-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    height: 600px;
+}
+
+.view {
+    border: 2px solid #34495e;
+    border-radius: 10px;
+    background: #2c3e50;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.view:hover {
+    border-color: #3498db;
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+}
+
+.view h3 {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #ecf0f1;
+    z-index: 10;
+    background: rgba(52, 73, 94, 0.9);
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.screen {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    background: #1a1a1a;
+}
+
+/* Coordenadas del electrón */
+.electron-coords {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8em;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 8px;
+    border-radius: 3px;
+    border: 1px solid #00ff00;
+    z-index: 10;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    cursor: crosshair;
+    display: block;
+    background: #2c3e50;
+}
+
+/* ===============================================
+   PANEL DE CONTROLES
+   =============================================== */
+.controls {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    height: fit-content;
+    backdrop-filter: blur(10px);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.control-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #3498db;
+    transition: all 0.3s ease;
+}
+
+.control-group:hover {
+    border-left-color: #2980b9;
+    transform: translateX(2px);
+}
+
+.control-group h3 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-size: 1.1em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.control-group h3::before {
+    content: '⚡';
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+
+.control-item {
+    margin-bottom: 12px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #34495e;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+/* ===============================================
+   CONTROLES DESLIZANTES (SLIDERS)
+   =============================================== */
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #e9ecef 0%, #3498db 0%);
+    outline: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    -webkit-appearance: none;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(52, 152, 219, 0.4);
+    transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.6);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 3px 8px rgba(52, 152, 219, 0.4);
+    transition: all 0.3s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.6);
+}
+
+.value-display {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* ===============================================
+   BOTONES
+   =============================================== */
+button {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(135deg, #5dade2, #3498db);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+}
+
+button.active {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+button.active:hover {
+    background: linear-gradient(135deg, #ec7063, #e74c3c);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+/* ===============================================
+   CONTROLES ESPECIALES
+   =============================================== */
+.mode-switch {
+    display: flex;
+    gap: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #e9ecef;
+}
+
+.mode-switch button {
+    flex: 1;
+    margin-top: 0;
+    border-radius: 0;
+    font-size: 0.95em;
+}
+
+/* Presets de persistencia */
+.preset-buttons {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.preset-buttons h4 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 0.9em;
+}
+
+.preset-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.preset-btn {
+    padding: 8px 12px;
+    font-size: 0.85em;
+    margin-top: 0;
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+}
+
+.preset-btn:hover {
+    background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+}
+
+/* Controles de animación */
+.animation-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.animation-controls button {
+    margin-top: 5px;
+    padding: 10px 15px;
+    font-size: 0.9em;
+}
+
+#resetValues {
+    grid-column: 1 / 3;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+#resetValues:hover {
+    background: linear-gradient(135deg, #f5b041, #f39c12);
+}
+
+/* ===============================================
+   INFORMACIÓN DE ESTADO
+   =============================================== */
+.status-info {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #d1ecf1;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.status-info h4 {
+    color: #0c5460;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 1.05em;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    color: #2c3e50;
+}
+
+.status-item span:first-child {
+    font-weight: 600;
+}
+
+.status-item span:last-child {
+    color: #27ae60;
+    font-family: 'Courier New', monospace;
+}
+
+/* ===============================================
+   INFORMACIÓN FÍSICA
+   =============================================== */
+.physics-info {
+    background: linear-gradient(135deg, #e8f4fd, #d5e8f7);
+    border: 2px solid #bee5eb;
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.physics-info::before {
+    content: '🔬';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5em;
+    opacity: 0.3;
+}
+
+.physics-info h4 {
+    color: #0c5460;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 1.05em;
+}
+
+.physics-info ul {
+    color: #0c5460;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.physics-info li {
+    margin-bottom: 6px;
+    font-size: 0.9em;
+    position: relative;
+    padding-left: 15px;
+}
+
+.physics-info li::before {
+    content: '•';
+    color: #3498db;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* ===============================================
+   EFECTOS ESPECIALES
+   =============================================== */
+.electron-trail {
+    opacity: 0.7;
+    filter: blur(1px);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* Efecto de parpadeo para electrón fuera de pantalla */
+.out-of-bounds {
+    animation: blink 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes blink {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+/* ===============================================
+   RESPONSIVE DESIGN
+   =============================================== */
+@media (max-width: 1200px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        gap: 15px;
+    }
+    
+    .view-container {
+        height: 500px;
+    }
+    
+    .controls {
+        order: 2;
+        max-height: none;
+    }
+    
+    .simulation-area {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+        margin: 10px auto;
+    }
+    
+    .header {
+        padding: 15px;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .header p {
+        font-size: 1em;
+    }
+    
+    .view-container {
+        height: 400px;
+        gap: 10px;
+    }
+    
+    .simulation-area,
+    .controls {
+        padding: 15px;
+    }
+    
+    .control-group {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+    
+    .preset-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .view-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        height: 600px;
+    }
+    
+    .screen {
+        grid-column: 1;
+        grid-row: 3;
+    }
+    
+    .mode-switch {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .animation-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    #resetValues {
+        grid-column: 1;
+    }
+}
+
+/* ===============================================
+   ANIMACIONES Y TRANSICIONES
+   =============================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.control-group {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.control-group:nth-child(1) { animation-delay: 0.1s; }
+.control-group:nth-child(2) { animation-delay: 0.2s; }
+.control-group:nth-child(3) { animation-delay: 0.3s; }
+.control-group:nth-child(4) { animation-delay: 0.4s; }
+.control-group:nth-child(5) { animation-delay: 0.5s; }
+.control-group:nth-child(6) { animation-delay: 0.6s; }
+
+/* ===============================================
+   UTILIDADES
+   =============================================== */
+.hidden {
+    display: none;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* ===============================================
+   DARK MODE SUPPORT
+   =============================================== */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    }
+    
+    .header {
+        background: rgba(44, 62, 80, 0.95);
+    }
+    
+    .header h1 {
+        color: #ecf0f1;
+    }
+    
+    .header p {
+        color: #bdc3c7;
+    }
+    
+    .simulation-area,
+    .controls {
+        background: rgba(44, 62, 80, 0.95);
+    }
+    
+    .control-group {
+        background: #34495e;
+    }
+    
+    label {
+        color: #ecf0f1;
+    }
+    
+    .status-info {
+        background: rgba(52, 73, 94, 0.8);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .physics-info {
+        background: rgba(52, 73, 94, 0.8);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+}
